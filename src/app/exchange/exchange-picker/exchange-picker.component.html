@@ -1,0 +1,8 @@
+<h2>{{title}}</h2> 
+<select class="form-select shadow"
+        [(ngModel)]="symbol"
+        (ngModelChange)="symbolChanged()">
+    <option *ngFor="let symbol of symbols" [ngValue]="symbol">
+        {{symbol.code}} ({{symbol.description}})
+    </option>
+</select>
