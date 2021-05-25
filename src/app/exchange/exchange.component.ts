@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IExchangeSymbol } from './exchange-symbol';
 import { ExchangeService } from './exchange.service';
@@ -16,9 +16,17 @@ export class ExchangeComponent implements OnInit {
   public amount: number;
   public result: number;
 
+  public screenWidth: number;
+
   constructor(private exchangeService: ExchangeService) { }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.screenWidth = window.innerWidth;
+  }
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
     this.amount = 0;
     this.exchangeService.getSymbols().subscribe({
       next: response => {
@@ -45,4 +53,7 @@ export class ExchangeComponent implements OnInit {
     if (this.amount) this.convertCurrency();
   }
 
+  isMobile(){
+    return this.screenWidth < 768;
+  }
 }
